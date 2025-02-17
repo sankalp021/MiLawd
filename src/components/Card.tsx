@@ -2,33 +2,44 @@ import { ArrowUpRight, Calendar } from "lucide-react";
 
 interface CardProps {
   source: string;
-  title: string;
+  title: string; // this will be the name
+  caseId: string; // add this prop
   date?: string;
   description: string;
   sentiment?: string;
   polarity?: string;
   subjectivity?: string;
+  isReference?: boolean;
 }
 
 export default function Card({
   source,
-  title,
+  title, // this will be the name
+  caseId, // add this prop
   date,
   description,
   sentiment,
   polarity = "0",
   subjectivity = "0",
+  isReference = false,
 }: CardProps) {
   return (
     <div className={`
       bg-white rounded-xl shadow-sm border-l-4 h-fit 
       transform transition-all duration-200 hover:scale-[1.02] hover:shadow-md
-      ${sentiment === "Positive" ? "border-l-[#026953]" :
-         sentiment === "Negative" ? "border-l-[#720606]" :
-         sentiment === "Neutral" ? "border-l-[#F08000]" :
-         "border-l-blue-500"}
+      ${isReference ? "border-orange-500 ring-2 ring-orange-200" :
+        sentiment === "Positive" ? "border-l-[#026953]" :
+        sentiment === "Negative" ? "border-l-[#720606]" :
+        sentiment === "Neutral" ? "border-l-[#F08000]" :
+        "border-l-blue-500"}
     `}>
       <div className="p-4">
+        {isReference && (
+          <div className="mb-2 inline-block px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+            Current Case
+          </div>
+        )}
+        <div className="mb-1 text-sm text-gray-500">Case {caseId}</div>
         <h2 className="text-lg font-medium mb-2 text-gray-800 line-clamp-2">{title}</h2>
         {date && (
           <div className="flex items-center space-x-2 mb-3">
