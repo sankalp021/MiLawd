@@ -103,6 +103,7 @@ export default function Graph({ cases, onNodeClick }: GraphProps) {
       .selectAll<SVGGElement, Case>("g")
       .data(cases)
       .join("g")
+      .attr("data-node-id", d => d.id)   // Added this line
       .call(d3.drag<SVGGElement, Case>()
         .on("start", dragstarted)
         .on("drag", dragged)
@@ -115,6 +116,12 @@ export default function Graph({ cases, onNodeClick }: GraphProps) {
       .attr("stroke", "#64748b")
       .attr("stroke-width", d => d.isReference ? 1 : 2)
       .attr("opacity", 0.9);
+
+    // Add click event to nodes so that clicking the node triggers onNodeClick
+    node.on("click", (event, d) => {
+      event.stopPropagation();
+      onNodeClick(d);
+    });
 
     // Add similarity score for non-reference cases
     node.filter(d => !d.isReference)
