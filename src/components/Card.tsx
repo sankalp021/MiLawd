@@ -1,4 +1,4 @@
-import { ArrowUpRight, Calendar } from "lucide-react";
+import { ArrowUpRight, Calendar, Scale, Percent, BookOpen } from "lucide-react";
 
 interface CardProps {
   source: string;
@@ -24,45 +24,75 @@ export default function Card({
   isReference = false,
 }: CardProps) {
   return (
-    <div className={`
-      bg-white rounded-xl shadow-sm border-l-4 h-fit 
-      transform transition-all duration-200 hover:scale-[1.02] hover:shadow-md
-      ${isReference ? "border-orange-500 ring-2 ring-orange-200" :
-        sentiment === "Positive" ? "border-l-[#026953]" :
-        sentiment === "Negative" ? "border-l-[#720606]" :
-        sentiment === "Neutral" ? "border-l-[#F08000]" :
-        "border-l-blue-500"}
-    `}>
-      <div className="p-4">
-        {isReference && (
-          <div className="mb-2 inline-block px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
-            Current Case
-          </div>
-        )}
-        <div className="mb-1 text-sm text-gray-500">Case {caseId}</div>
-        <h2 className="text-lg font-medium mb-2 text-gray-800 line-clamp-2">{title}</h2>
-        {date && (
-          <div className="flex items-center space-x-2 mb-3">
-            <Calendar className="w-4 h-4 text-gray-400" />
-            <p className="text-sm text-gray-500">{date}</p>
-          </div>
-        )}
-        <p className="text-gray-600 mb-4 text-sm line-clamp-3">{description}</p>
-        
-        <div className="flex justify-between items-center">
-          <div className="flex space-x-4">
-            {polarity && (
-              <div className="text-sm text-gray-500">
-                Relevance: {(Number(polarity) * 100).toFixed(0)}%
-              </div>
+    <div 
+      className={`
+        bg-white rounded-lg border h-fit 
+        transform transition-all duration-200
+        ${isReference 
+          ? "border-orange-500 bg-orange-50/50" 
+          : "border-gray-100 hover:border-gray-200"
+        }
+      `}
+    >
+      <div className="p-5 space-y-4">
+        {/* Header Section */}
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            {isReference && (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 mb-2">
+                Current Case
+              </span>
             )}
+            <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-1">
+              <Scale className="w-3.5 h-3.5" />
+              <span>Case {caseId}</span>
+            </div>
+            <h2 className="text-base font-medium text-gray-900 line-clamp-2">
+              {title}
+            </h2>
           </div>
-          <a href={source} target="_blank" rel="noopener noreferrer">
-            <button className="group flex items-center space-x-2 bg-[#102B3F] text-white px-4 py-2 rounded-lg hover:bg-[#1a4c6e] transition-colors">
-              <span>View</span>
-              <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-            </button>
-          </a>
+          
+          {!isReference && (
+            <div className="flex flex-col items-end gap-2">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 rounded-full">
+                <Percent className="w-3.5 h-3.5 text-green-600" />
+                <span className="text-sm font-medium text-green-600">
+                  {(Number(polarity) * 100).toFixed(0)}%
+                </span>
+              </div>
+              {date && (
+                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {date}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Description Section */}
+        <div className="text-sm text-gray-600 line-clamp-2">
+          {description}
+        </div>
+
+        {/* Footer Section - Updated button styling */}
+        <div className="flex items-center justify-between pt-2">
+          <div className="flex gap-2">
+            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+              Tax Law
+            </span>
+            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+              Section 80
+            </span>
+          </div>
+          
+          <button 
+            className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 rounded hover:bg-gray-50"
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Read</span>
+            <ArrowUpRight className="w-3 h-3" />
+          </button>
         </div>
       </div>
     </div>
