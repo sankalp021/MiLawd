@@ -34,26 +34,26 @@ export default function Card({
         }
       `}
     >
-      <div className="p-5 space-y-4">
+      <div className="p-2.5 space-y-2">
         {/* Header Section */}
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0"> {/* Added min-w-0 for text truncation */}
             {isReference && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 mb-2">
                 Current Case
               </span>
             )}
-            <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-1">
-              <Scale className="w-3.5 h-3.5" />
-              <span>Case {caseId}</span>
+            <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-0.5">
+              <Scale className="w-3 h-3" />
+              <span className="truncate">Case {caseId}</span>
             </div>
-            <h2 className="text-base font-medium text-gray-900 line-clamp-2">
+            <h2 className="text-sm font-medium text-gray-900 line-clamp-1">
               {title}
             </h2>
           </div>
           
           {!isReference && (
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-col items-end gap-1 flex-shrink-0">
               <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 rounded-full">
                 <Percent className="w-3.5 h-3.5 text-green-600" />
                 <span className="text-sm font-medium text-green-600">
@@ -70,14 +70,14 @@ export default function Card({
           )}
         </div>
 
-        {/* Description Section */}
-        <div className="text-sm text-gray-600 line-clamp-2">
+        {/* Description - More compact on mobile */}
+        <div className="text-xs text-gray-600 line-clamp-2 mt-1">
           {description}
         </div>
 
-        {/* Footer Section - Updated button styling */}
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex gap-2">
+        {/* Footer - Responsive layout */}
+        <div className="flex items-center justify-between gap-1 pt-1">
+          <div className="flex gap-1 overflow-x-auto flex-1 scrollbar-hide">
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
               Tax Law
             </span>
