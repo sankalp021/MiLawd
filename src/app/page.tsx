@@ -11,9 +11,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <Navbar onSearch={handleSearch} />
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <main className="max-w-full px-3 py-3">
         <CaseDisplay searchQuery={searchQuery} />
       </main>
     </div>

@@ -99,11 +99,11 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
   };
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-7rem)] gap-4">
-      <div className="flex flex-row gap-4 flex-1 min-h-0">
-        <div className="w-[70%] bg-white rounded-lg shadow-sm p-4 relative">
-          {/* Stats Panel - Simplified and centered */}
-          <div className="bg-gray-50 rounded-lg p-2 mb-3">
+    <div className="flex flex-col w-full h-[calc(100vh-4.5rem)] gap-2">
+      <div className="flex flex-row gap-2 flex-1 min-h-0">
+        <div className="w-[72%] bg-white rounded-lg shadow-sm p-2 relative">
+          {/* Stats Panel - More compact */}
+          <div className="bg-gray-50 rounded-lg p-1 mb-1">
             <div className="grid grid-cols-4 divide-x divide-gray-200">
               <StatItem
                 label="Total Cases"
@@ -128,18 +128,18 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
             </div>
           </div>
 
-          {/* Graph container with legend overlay */}
-          <div className="h-[calc(100%-60px)] relative">
-            {/* Year Range Legend - Floating over graph */}
-            <div className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 shadow-sm border border-gray-100">
+          {/* Graph container - Reduced height */}
+          <div className="h-[calc(100%-150px)] relative">
+            {/* Year Range Legend - Adjusted position */}
+            <div className="absolute top-2 right-2 z-10 bg-white/80 backdrop-blur-sm rounded-lg px-2 py-1 shadow-sm border border-gray-100">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-[#99E1B5]" />
-                  <span className="text-xs font-medium text-gray-600">2015-2019</span>
+                  <span className="text-xs font-medium text-gray-600">Older Cases</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-[#1A4731]" />
-                  <span className="text-xs font-medium text-gray-600">2020-2024</span>
+                  <span className="text-xs font-medium text-gray-600">Newer Cases</span>
                 </div>
               </div>
             </div>
@@ -148,13 +148,13 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
           </div>
         </div>
 
-        <div className="w-[30%] flex flex-col bg-white rounded-lg shadow-sm overflow-hidden">
-          <div className="sticky top-0 bg-white z-10 p-3 border-b">
-            <h2 className="text-lg font-semibold text-gray-800">Similar Cases</h2>
-            <p className="text-gray-500 text-sm">{relatedCases.length} cases found</p>
+        {/* Right sidebar - More compact */}
+        <div className="w-[28%] flex flex-col bg-white rounded-lg shadow-sm overflow-hidden">
+          <div className="sticky top-0 bg-white z-10 p-2 border-b">
+            <h2 className="text-sm font-semibold text-gray-800">Similar Cases</h2>
+            <p className="text-xs text-gray-500">{relatedCases.length} cases found</p>
           </div>
-          {/* Cards container with data-case-id attribute on each card */}
-          <div className="flex flex-col gap-3 p-3 overflow-y-auto" ref={listContainerRef}>
+          <div className="flex flex-col gap-2 p-2 overflow-y-auto" ref={listContainerRef}>
             {relatedCases.map((item) => (
               <div
                 key={item.id}
