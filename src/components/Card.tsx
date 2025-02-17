@@ -7,7 +7,7 @@ interface CardProps {
   date?: string;
   description: string;
   sentiment?: string;
-  polarity?: string;
+  polarity?: number; // Change default to number
   subjectivity?: string;
   isReference?: boolean;
 }
@@ -19,7 +19,7 @@ export default function Card({
   date,
   description,
   sentiment,
-  polarity = "0",
+  polarity = 0, // Change default to number
   subjectivity = "0",
   isReference = false,
 }: CardProps) {
@@ -34,7 +34,7 @@ export default function Card({
         }
       `}
     >
-      <div className="p-2.5 space-y-2">
+      <div className="p-4 space-y-5">
         {/* Header Section */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0"> {/* Added min-w-0 for text truncation */}

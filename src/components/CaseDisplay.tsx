@@ -52,24 +52,38 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
     setSelectedCase(null);
   }, [searchQuery]);
 
-  // When selectedCase changes, attempt to scroll its card into view.
+  // Updated scrolling logic with better handling
   useEffect(() => {
-    console.log('[SelectedCase] Changed selection:', selectedCase);
-    if (selectedCase && listContainerRef.current) {
-      requestAnimationFrame(() => {
-        const cardEl = listContainerRef.current!.querySelector(
-          `[data-case-id="${selectedCase.id}"]`
-        ) as HTMLElement;
-        if (cardEl) {
-          console.log('[Scroll] Found card for:', selectedCase.id);
-          cardEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-          setTimeout(() => {
-            console.log('[Scroll] Finished scrolling to:', selectedCase.id);
-          }, 600);
+    if (selectedCase) {
+      console.log('[Scroll] Attempting to scroll to:', selectedCase.id);
+      
+      // Give time for DOM to update
+      setTimeout(() => {
+        // Handle mobile scroll (horizontal)
+        const mobileContainer = document.querySelector('.mobile-cards-container');
+        const mobileCard = mobileContainer?.querySelector(`[data-case-id="${selectedCase.id}"]`);
+        
+        // Handle desktop scroll (vertical)
+        const desktopContainer = document.querySelector('.desktop-cards-container');
+        const desktopCard = desktopContainer?.querySelector(`[data-case-id="${selectedCase.id}"]`);
+
+        if (window.innerWidth < 768 && mobileCard) {
+          mobileCard.scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center',
+            block: 'nearest'
+          });
+          console.log('[Scroll] Scrolled mobile card into view');
+        } else if (desktopCard) {
+          desktopCard.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+          console.log('[Scroll] Scrolled desktop card into view');
         } else {
-          console.error('[Scroll] Card element not found for:', selectedCase.id);
+          console.error('[Scroll] No card element found');
         }
-      });
+      }, 100);
     }
   }, [selectedCase]);
 
@@ -137,7 +151,7 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
               <p className="text-xs text-gray-500">{relatedCases.length} found</p>
             </div>
             <div 
-              className="flex overflow-x-auto gap-3 pb-2 snap-x snap-mandatory"
+              className="mobile-cards-container flex overflow-x-auto gap-4 pb-3"
               ref={listContainerRef}
             >
               {relatedCases.map((item) => (
@@ -145,7 +159,7 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
                   key={item.id}
                   data-case-id={item.id}
                   onClick={() => setSelectedCase(item)}
-                  className={`flex-none w-[85%] snap-center ${
+                  className={`flex-none w-[95%] snap-center ${
                     selectedCase?.id === item.id ? 'scale-[1.02] shadow-md' : ''
                   }`}
                 >
@@ -153,6 +167,8 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
                     source={item.description}
                     title={item.name}
                     caseId={item.id}
+                    date={`Year: ${item.year}`}
+                    polarity={item.similarityScore} // Pass the raw similarityScore directly
                     {...item}
                   />
                 </div>
@@ -190,7 +206,7 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
             <h2 className="text-sm font-semibold text-gray-800">Similar Cases</h2>
             <p className="text-xs text-gray-500">{relatedCases.length} cases found</p>
           </div>
-          <div className="flex flex-col gap-2 p-2 overflow-y-auto">
+          <div className="desktop-cards-container flex flex-col gap-3 p-3 overflow-y-auto">
             {relatedCases.map((item) => (
               <div
                 key={item.id}
@@ -204,6 +220,8 @@ export default function CaseDisplay({ searchQuery }: CaseDisplayProps) {
                   source={item.description}
                   title={item.name}
                   caseId={item.id}
+                  date={`Year: ${item.year}`}
+                  polarity={item.similarityScore} // Pass the raw similarityScore directly
                   {...item}
                 />
               </div>
