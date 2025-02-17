@@ -1,23 +1,27 @@
 'use client';
-import { Scale, Search, BookOpen } from 'lucide-react';
+import { Scale } from 'lucide-react';
+import SearchBar from './SearchBar';
 
-export default function Navbar() {
+interface NavbarProps {
+  onSearch: (query: string) => void;
+}
+
+export default function Navbar({ onSearch }: NavbarProps) {
   return (
-    <nav className="bg-[#102B3F] text-white py-4 px-6 sticky top-0 z-50 shadow-lg">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <nav className="bg-white border-b h-16 px-4">
+      <div className="h-full max-w-[2000px] mx-auto flex items-center justify-between gap-8">
         <div className="flex items-center space-x-2">
-          <Scale className="w-6 h-6" />
-          <span className="text-xl font-semibold">MiLawd</span>
+          <Scale className="w-6 h-6 text-[#102B3F]" />
+          <span className="text-xl font-semibold text-[#102B3F]">MiLawd</span>
         </div>
-        <div className="flex space-x-4">
-          <button className="flex items-center space-x-2 hover:text-blue-300 transition-colors">
-            <Search className="w-5 h-5" />
-            <span>Search</span>
-          </button>
-          <button className="flex items-center space-x-2 hover:text-blue-300 transition-colors">
-            <BookOpen className="w-5 h-5" />
-            <span>Documentation</span>
-          </button>
+        
+        <div className="flex-1 max-w-2xl">
+          <SearchBar onSearch={onSearch} />
+        </div>
+
+        <div className="flex items-center space-x-4">
+          <button className="text-gray-600 hover:text-gray-900">Help</button>
+          <button className="text-gray-600 hover:text-gray-900">Settings</button>
         </div>
       </div>
     </nav>
